@@ -30,7 +30,7 @@ sources:
     accessed: 2026-11-11
   - title: "Benin e-visa portal"
     publisher: "Government of Benin"
-    url: "https://evisa.gouv.bj"
+    url: "https://evisa.bj/"
     accessed: 2026-11-11
   - title: "Destination Bénin : Porto-Novo"
     publisher: "Government of Benin"
@@ -88,7 +88,7 @@ The FCDO advises [avoiding driving outside towns and cities at night](https://ww
 
 ### Paperwork and health
 
-British passport holders need a visa, applied for online [at least four working days before arrival](https://www.gov.uk/foreign-travel-advice/benin/entry-requirements) through the official [Benin e-visa portal](https://evisa.gouv.bj). You must also show a [yellow fever vaccination certificate](https://www.gov.uk/foreign-travel-advice/benin/entry-requirements) on entry. Our guide to [Benin's e-visa and entry](/stories/benin-e-visa-entry-requirements/) explains the process, and our [first-timer's guide](/stories/first-timers-guide-to-benin/) covers the rest of the basics.
+British passport holders need a visa, applied for online [at least four working days before arrival](https://www.gov.uk/foreign-travel-advice/benin/entry-requirements) through the official [Benin e-visa portal](https://evisa.bj/). The FCDO says you must have a [yellow fever vaccination certificate](https://www.gov.uk/foreign-travel-advice/benin/entry-requirements) to enter; Benin's Ministry of Health said in September 2026 that certificates are no longer checked at entry points, but the vaccine is still recommended, so get vaccinated and carry the certificate. Our guide to [Benin's e-visa and entry](/stories/benin-e-visa-entry-requirements/) explains the process, and our [first-timer's guide](/stories/first-timers-guide-to-benin/) covers the rest of the basics.
 
 ## Day 1: Arrive in Cotonou
 

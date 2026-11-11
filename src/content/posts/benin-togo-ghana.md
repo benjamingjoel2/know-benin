@@ -1,6 +1,6 @@
 ---
 title: "Combining Benin with Togo and Ghana"
-description: "How to travel the coast from Accra to Cotonou through Togo: the border crossings, visas, yellow fever rules, travel advice, and the heritage that ties it together."
+description: "How to travel the coast from Accra to Cotonou via Togo: border crossings, visas, yellow fever rules, travel advice and the heritage that ties it together."
 category: itineraries
 places: [cotonou, ouidah]
 publishDate: 2026-11-11
@@ -153,7 +153,7 @@ If you hold a passport from an ECOWAS member state, the rules are different. Und
 
 ## Health: yellow fever and more
 
-All three countries require proof of yellow fever vaccination. TravelHealthPro says a certificate is required for travellers aged nine months or over entering [Benin](https://travelhealthpro.org.uk/country/27/benin), [Togo](https://travelhealthpro.org.uk/country/222/togo) and [Ghana](https://travelhealthpro.org.uk/country/89/ghana), and the FCDO entry pages for each country say the same. Carry the original certificate with your passport for every crossing. Ghana also asks for it with your visa application.
+All three countries require proof of yellow fever vaccination. TravelHealthPro says a certificate is required for travellers aged nine months or over entering [Benin](https://travelhealthpro.org.uk/country/27/benin), [Togo](https://travelhealthpro.org.uk/country/222/togo) and [Ghana](https://travelhealthpro.org.uk/country/89/ghana), and the FCDO entry pages for each country say the same. For Benin, note that the Ministry of Health [announced in September 2026](https://evisa.bj/articles/controle-du-carnet-de-vaccination-fievre-jaune-aux-points-dentree-du-benin/0225cd59-9365-4534-94ee-c1e3cdc996c7) that vaccination certificates are no longer checked at its entry points. That applies to Benin only, so carry the original certificate with your passport for every crossing. Ghana also asks for it with your visa application.
 
 At the time of writing, the FCDO says there is [additional Ebola screening at Ghana's border entry points](https://www.gov.uk/foreign-travel-advice/ghana/entry-requirements) and that travellers should complete the online Ghana Health Declaration before travelling. TravelHealthPro rates the risk of malaria in Benin as high. See a travel health clinic well before you go.
 

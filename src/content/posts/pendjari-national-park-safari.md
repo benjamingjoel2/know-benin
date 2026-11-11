@@ -1,6 +1,6 @@
 ---
 title: "Safari in Pendjari National Park"
-description: "Pendjari is West Africa's great savannah park, home to elephants and West African lions. Here is what it is, who runs it, and why the UK advises against all travel now."
+description: "Pendjari is West Africa's great savannah park, home to elephants and West African lions. What it is, who runs it, and why the UK advises against travel now."
 category: wildlife
 places: [north-pendjari]
 publishDate: 2026-11-11
