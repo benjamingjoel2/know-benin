@@ -1,0 +1,24 @@
+---
+import Page from '../layouts/Page.astro';
+import PostCard from '../components/PostCard.astro';
+import { AUTHORS } from '../data/site';
+import { getPosts } from '../lib/posts';
+const posts = await getPosts();
+---
+<Page title="Authors" description="Who writes Know Benin, and how stories are researched, checked and updated." eyebrow="About this site" schemaType="ProfilePage">
+  <p>Know Benin stories are researched and written by an editorial desk at Tourground. We would rather give a desk byline than invent a persona: when individual writers and photographers contribute, they will be named here with their real names and backgrounds.</p>
+  {AUTHORS.map((a) => {
+    const theirs = posts.filter((p) => p.data.author === a.slug);
+    return (
+      <section id={a.slug}>
+        <h2>{a.name}</h2>
+        <p class="meta">{a.role}</p>
+        <p>{a.bio}</p>
+        <p>{theirs.length} {theirs.length === 1 ? 'story' : 'stories'}, including:</p>
+        <ul>{theirs.slice(0, 10).map((p) => <li><a href={`/stories/${p.id}/`}>{p.data.title}</a></li>)}</ul>
+      </section>
+    );
+  })}
+  <h2>Write for Know Benin</h2>
+  <p>We're interested in first-hand writing from people who live in or know Benin well, especially guides, historians and photographers. Email us with a short note on what you'd like to write.</p>
+</Page>

@@ -1,0 +1,29 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostCard from '../../components/PostCard.astro';
+import { CATEGORIES } from '../../data/site';
+import { getPosts } from '../../lib/posts';
+export function getStaticPaths() {
+  return CATEGORIES.map((c) => ({ params: { slug: c.slug }, props: { cat: c } }));
+}
+const { cat } = Astro.props;
+const posts = (await getPosts()).filter((p) => p.data.category === cat.slug);
+const schema = { '@type': 'CollectionPage', name: cat.name, description: cat.blurb, url: `https://knowbenin.tourground.com/category/${cat.slug}/` };
+---
+<Base title={cat.name} description={`${cat.name}: ${cat.blurb}`} crumbs={[{ name: 'Stories', url: '/stories/' }, { name: cat.name, url: `/category/${cat.slug}/` }]} extraSchema={[schema]}>
+  <div class="wrap">
+    <p class="eyebrow">Category</p>
+    <h1>{cat.name}</h1>
+    <p class="lede measure">{cat.blurb}</p>
+    <div class="grid grid-3 section">
+      {posts.map((p) => <PostCard post={p} headingLevel="h2" />)}
+    </div>
+    {posts.length === 0 && <p>No stories here yet. <a href="/stories/">See all stories</a>.</p>}
+    <nav aria-label="Other categories" class="section">
+      <h2>Other subjects</h2>
+      <ul class="tiles">
+        {CATEGORIES.filter((c) => c.slug !== cat.slug).map((c) => <li><a href={`/category/${c.slug}/`}>{c.name}</a><p>{c.blurb}</p></li>)}
+      </ul>
+    </nav>
+  </div>
+</Base>

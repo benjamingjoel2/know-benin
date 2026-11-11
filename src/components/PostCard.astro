@@ -1,0 +1,19 @@
+---
+import Photo from './Photo.astro';
+import { categoryName } from '../data/site';
+import { postUrl, fmtDate, readingTime, type Post } from '../lib/posts';
+interface Props { post: Post; headingLevel?: 'h2' | 'h3' }
+const { post, headingLevel = 'h3' } = Astro.props;
+const H = headingLevel;
+const d = post.data;
+---
+<article class="card">
+  <Photo photo={d.hero} alt="" sizes="(min-width: 64rem) 22rem, (min-width: 40rem) 45vw, 100vw" />
+  <p class="eyebrow">
+    {d.sponsored && <span class="ad-label">Advertisement feature</span>}
+    <a href={`/category/${d.category}/`}>{categoryName(d.category)}</a>
+  </p>
+  <H><a href={postUrl(post)}>{d.title}</a></H>
+  <p>{d.description}</p>
+  <p class="meta"><span><time datetime={d.publishDate.toISOString()}>{fmtDate(d.publishDate)}</time></span><span>{readingTime(post.body)} min read</span></p>
+</article>

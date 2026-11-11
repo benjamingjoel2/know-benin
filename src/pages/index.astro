@@ -1,0 +1,75 @@
+---
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import PhotoCredit from '../components/PhotoCredit.astro';
+import PostCard from '../components/PostCard.astro';
+import Newsletter from '../components/Newsletter.astro';
+import photos from '../data/photos.json';
+import { SITE, CATEGORIES, categoryName } from '../data/site';
+import { getPosts, postUrl, readingTime, fmtDate } from '../lib/posts';
+import { srcset } from '../lib/photo-html.mjs';
+
+const posts = await getPosts();
+const featured = posts.find((p) => p.data.featured) ?? posts[0];
+const latest = posts.filter((p) => p.id !== featured.id).slice(0, 6);
+const startOrder = ['first-timers-guide-to-benin', 'benin-e-visa-entry-requirements', 'benin-10-day-itinerary'];
+const startHere = posts
+  .filter((p) => p.data.startHere)
+  .sort((a, b) => (startOrder.indexOf(a.id) + 99) % 100 - (startOrder.indexOf(b.id) + 99) % 100);
+const counts = Object.fromEntries(CATEGORIES.map((c) => [c.slug, posts.filter((p) => p.data.category === c.slug).length]));
+const f = featured.data;
+const sizes = '(min-width: 56rem) 40rem, 100vw';
+---
+<Base title={SITE.name} description={SITE.description} preloadImage={{ srcset: srcset(f.hero, (photos as any)[f.hero]), sizes }}>
+  <h1 class="visually-hidden">Know Benin: travel stories for people planning a trip to Benin</h1>
+
+  <section class="section wrap" aria-labelledby="featured-title">
+    <div class="featured">
+      <figure>
+        <a href={postUrl(featured)} tabindex="-1" aria-hidden="true"><Photo photo={f.hero} alt="" sizes={sizes} eager /></a>
+        <figcaption class="meta" style="font-size:0.8rem;margin-top:0.4rem"><PhotoCredit photo={f.hero} /></figcaption>
+      </figure>
+      <div>
+        <p class="eyebrow">Featured story · <a href={`/category/${f.category}/`}>{categoryName(f.category)}</a></p>
+        <h2 id="featured-title"><a href={postUrl(featured)}>{f.title}</a></h2>
+        <p class="lede">{f.description}</p>
+        <p class="meta"><span>{fmtDate(f.publishDate)}</span><span>{readingTime(featured.body)} min read</span></p>
+        <p><a class="button" href={postUrl(featured)}>Read the story</a></p>
+      </div>
+    </div>
+  </section>
+
+  {startHere.length > 0 && (
+    <section class="section wrap" aria-labelledby="start-title">
+      <div class="start-here">
+        <h2 id="start-title">New to Benin? Start here</h2>
+        <p>Three posts that answer the first questions: what the country is like, how to get in, and how to spend your days.</p>
+        <ol>
+          {startHere.map((p) => (
+            <li><a href={postUrl(p)}>{p.data.title}</a><p>{p.data.description}</p></li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  )}
+
+  <section class="section wrap" aria-labelledby="latest-title">
+    <div class="section-head"><h2 id="latest-title">Latest stories</h2><a href="/stories/">All stories</a></div>
+    <div class="grid grid-3">
+      {latest.map((p) => <PostCard post={p} />)}
+    </div>
+  </section>
+
+  <section class="section wrap" aria-labelledby="cats-title">
+    <div class="section-head"><h2 id="cats-title">Browse by subject</h2><a href="/destinations/">Destinations</a></div>
+    <ul class="tiles">
+      {CATEGORIES.map((c) => (
+        <li><a href={`/category/${c.slug}/`}>{c.name}</a><p>{c.blurb}</p><p class="count">{counts[c.slug]} {counts[c.slug] === 1 ? 'story' : 'stories'}</p></li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="section wrap">
+    <Newsletter />
+  </section>
+</Base>

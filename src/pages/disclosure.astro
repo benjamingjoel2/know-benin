@@ -1,0 +1,23 @@
+---
+import Page from '../layouts/Page.astro';
+import { SITE } from '../data/site';
+---
+<Page title="Publisher disclosure" description="Who publishes Know Benin, how Tourground earns money, the relationship with operators we link to, and how paid content is labelled."
+  sources={[
+    { title: 'Tourground: plans and FAQ', url: 'https://tourground.com/', publisher: 'Tourground' },
+    { title: 'Google Search Central: Qualify your outbound links', url: 'https://developers.google.com/search/docs/crawling-indexing/qualify-outbound-links', publisher: 'Google' },
+  ]}>
+  <h2>Publisher</h2>
+  <p>Know Benin is published by Tourground. Tourground works with travel companies and earns money from paid plans sold to them. Some travel brands are owned by Tourground's founders.</p>
+  <h2>Operators we link to</h2>
+  <p>Each story ends with a "Plan this trip" box linking to a local operator listed in the <a href={SITE.directoryUrl}>Tourground directory</a>. For most of our launch stories that operator is Escale Voyages, based in Cotonou, because its journeys match the places we write about. Escale Voyages' website (escalevoyages.tourground.com) is hosted by Tourground. Operators do not review our stories before publication and have no say over what we write. A link in a "Plan this trip" box is not an endorsement or a guarantee: check the operator yourself before you pay.</p>
+  <p>Know Benin does not sell trips, take bookings or handle payments. Any contract you make is between you and the operator.</p>
+  <h2>Editorial independence</h2>
+  <p>Stories are written to be useful to travellers. No company pays to be mentioned in a story. Where official advice tells people not to travel somewhere, we say so, even when an operator we link to sells trips there.</p>
+  <h2>Paid content</h2>
+  <p>If we publish paid content, it will be labelled "Advertisement feature" at the top of the page and on every card that links to it, kept visually separate from editorial stories, and its outbound links will carry <code>rel="sponsored"</code>. There is no paid content on the site at the moment.</p>
+  <h2>Links</h2>
+  <p>Links inside a list of sources are citations and are marked <code>nofollow</code>.</p>
+  <h2>Changes to this disclosure</h2>
+  <p>The date of the last review is shown at the top of this page.</p>
+</Page>

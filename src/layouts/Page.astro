@@ -1,0 +1,49 @@
+---
+import Base from './Base.astro';
+import { SITE } from '../data/site';
+import { fmtDate } from '../lib/posts';
+interface Props {
+  title: string;
+  description: string;
+  eyebrow?: string;
+  reviewed?: string;
+  sources?: { title: string; url: string; publisher?: string }[];
+  schemaType?: string;
+}
+const { title, description, eyebrow = 'About this site', reviewed = SITE.launched, sources = [], schemaType = 'WebPage' } = Astro.props;
+const url = new URL(Astro.url.pathname, SITE.url).href;
+const pageSchema = {
+  '@type': schemaType,
+  '@id': `${url}#webpage`,
+  name: title,
+  description,
+  url,
+  inLanguage: SITE.lang,
+  isPartOf: { '@id': `${SITE.url}/#website` },
+  publisher: { '@id': `${SITE.url}/#organization` },
+  dateModified: reviewed,
+};
+const reviewedDate = new Date(reviewed + 'T00:00:00Z');
+---
+<Base title={title} description={description} crumbs={[{ name: title, url: Astro.url.pathname }]} extraSchema={[pageSchema]}>
+  <div class="wrap page">
+    <p class="eyebrow">{eyebrow}</p>
+    <h1>{title}</h1>
+    <p class="meta"><span>Published by Tourground</span><span>Last reviewed <time datetime={reviewed}>{fmtDate(reviewedDate)}</time></span></p>
+    <div class="prose">
+      <slot />
+      <h2>Contact</h2>
+      <dl class="facts">
+        <dt>Publisher</dt><dd>Tourground (<a href={SITE.publisher.url}>tourground.com</a>)</dd>
+        <dt>Email</dt><dd><a href={`mailto:${SITE.email}`}>{SITE.email}</a></dd>
+        <dt>Post</dt><dd>Our postal address is being confirmed. Until it is published here, please write to us by email.</dd>
+      </dl>
+    </div>
+    {sources.length > 0 && (
+      <section class="sources" aria-labelledby="sources-title">
+        <h2 id="sources-title">Sources</h2>
+        <ol>{sources.map((s) => <li><a href={s.url} rel="nofollow noopener">{s.title}</a>{s.publisher && <span class="src-meta">{s.publisher}</span>}</li>)}</ol>
+      </section>
+    )}
+  </div>
+</Base>

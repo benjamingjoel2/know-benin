@@ -1,0 +1,126 @@
+---
+import Base from '../../layouts/Base.astro';
+import Photo from '../../components/Photo.astro';
+import PhotoCredit from '../../components/PhotoCredit.astro';
+import PlanBox from '../../components/PlanBox.astro';
+import PostCard from '../../components/PostCard.astro';
+import photos from '../../data/photos.json';
+import { render } from 'astro:content';
+import { SITE, AUTHORS, categoryName, placeName } from '../../data/site';
+import { getPosts, postUrl, readingTime, relatedPosts, fmtDate, isoDate, type Post } from '../../lib/posts';
+import { ORG_ID, SITE_ID } from '../../lib/schema';
+import { srcset, optimized } from '../../lib/photo-html.mjs';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post, all: posts } }));
+}
+const { post, all } = Astro.props as { post: Post; all: Post[] };
+const d = post.data;
+const { Content } = await render(post);
+const author = AUTHORS.find((a) => a.slug === d.author) ?? AUTHORS[0];
+const minutes = readingTime(post.body);
+const related = relatedPosts(post, all);
+const url = new URL(postUrl(post), SITE.url).href;
+const updated = d.updatedDate ?? d.publishDate;
+const heroPhoto = (photos as Record<string, any>)[d.hero];
+const heroSizes = '(min-width: 72rem) 69rem, 100vw';
+const blogPosting = {
+  '@type': 'BlogPosting',
+  '@id': `${url}#article`,
+  headline: d.title,
+  description: d.description,
+  url,
+  mainEntityOfPage: url,
+  image: { '@type': 'ImageObject', url: new URL(optimized(heroPhoto, 1280), SITE.url).href, width: heroPhoto.width, height: heroPhoto.height },
+  datePublished: isoDate(d.publishDate),
+  dateModified: isoDate(updated),
+  inLanguage: SITE.lang,
+  articleSection: categoryName(d.category),
+  wordCount: (post.body ?? '').split(/\s+/).filter(Boolean).length,
+  author: { '@type': 'Organization', name: author.name, url: new URL(`/authors/#${author.slug}`, SITE.url).href, parentOrganization: { '@id': ORG_ID } },
+  publisher: { '@id': ORG_ID },
+  isPartOf: { '@id': SITE_ID },
+  ...(d.places.length ? { about: d.places.map((p) => ({ '@type': 'Place', name: `${placeName(p)}, Benin` })) } : {}),
+  ...(d.sources.length ? { citation: d.sources.map((s) => s.url) } : {}),
+};
+---
+<Base
+  title={d.title}
+  description={d.description}
+  ogType="article"
+  ogImage={optimized(heroPhoto, 1280)}
+  ogImageSize={[heroPhoto.width, heroPhoto.height]}
+  crumbs={[{ name: categoryName(d.category), url: `/category/${d.category}/` }, { name: d.title, url: postUrl(post) }]}
+  extraSchema={[blogPosting]}
+  preloadImage={{ srcset: srcset(d.hero, heroPhoto), sizes: heroSizes }}
+>
+  <article>
+    <header class="wrap post-header">
+      <p class="eyebrow">
+        {d.sponsored && <><span class="ad-label">Advertisement feature</span> </>}
+        <a href={`/category/${d.category}/`}>{categoryName(d.category)}</a>
+      </p>
+      <h1>{d.title}</h1>
+      <p class="lede">{d.description}</p>
+      <div class="byline">
+        <span>By <a href={`/authors/#${author.slug}`}>{author.name}</a></span>
+        <span>Published <time datetime={isoDate(d.publishDate)}>{fmtDate(d.publishDate)}</time></span>
+        {d.updatedDate && d.updatedDate.valueOf() !== d.publishDate.valueOf() && <span>Updated <time datetime={isoDate(d.updatedDate)}>{fmtDate(d.updatedDate)}</time></span>}
+        <span>{minutes} min read</span>
+      </div>
+      <figure class="hero">
+        <Photo photo={d.hero} alt={d.heroAlt} sizes={heroSizes} eager />
+        <figcaption>{heroPhoto.caption} <PhotoCredit photo={d.hero} /></figcaption>
+      </figure>
+    </header>
+
+    <div class="wrap post-layout">
+      <div>
+        {(d.advisory || d.officialInfo || d.sponsored) && (
+          <div class="notice-stack">
+            {d.sponsored && (
+              <div class="notice"><p><strong>Advertisement feature.</strong> This post was paid for by the company named in it. It is labelled and kept separate from our editorial stories. See our <a href="/disclosure/">publisher disclosure</a>.</p></div>
+            )}
+            {d.advisory && (
+              <div class="notice advisory" role="note"><p><strong>Travel advice:</strong> {d.advisory}</p></div>
+            )}
+            {d.officialInfo && (
+              <div class="notice" role="note">
+                <p><strong>Official facts last checked <time datetime={isoDate(updated)}>{fmtDate(updated)}</time>.</strong> Visa, health and safety information in this post links to the official source. Rules and advice change: check those sources, and your own government's travel advice, before you book and again before you travel.</p>
+              </div>
+            )}
+          </div>
+        )}
+        <div class="prose">
+          <Content />
+        </div>
+
+        <PlanBox plan={d.plan} sponsored={d.sponsored} />
+
+        {d.sources.length > 0 && (
+          <section class="sources" aria-labelledby="sources-title">
+            <h2 id="sources-title">Sources</h2>
+            <ol>
+              {d.sources.map((s) => (
+                <li>
+                  <a href={s.url} rel="nofollow noopener">{s.title}</a>
+                  <span class="src-meta">{s.publisher}{s.publisher && s.accessed ? ' · ' : ''}{s.accessed && <>accessed {fmtDate(s.accessed)}</>}</span>
+                </li>
+              ))}
+            </ol>
+          </section>
+        )}
+      </div>
+    </div>
+  </article>
+
+  {related.length > 0 && (
+    <section class="section wrap" aria-labelledby="related-title">
+      <div class="section-head"><h2 id="related-title">Related stories</h2><a href="/stories/">All stories</a></div>
+      <div class="grid grid-3">
+        {related.map((p) => <PostCard post={p} />)}
+      </div>
+    </section>
+  )}
+</Base>

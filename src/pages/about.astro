@@ -1,0 +1,24 @@
+---
+import Page from '../layouts/Page.astro';
+import { SITE } from '../data/site';
+---
+<Page title="About Know Benin" description="Who writes Know Benin, who publishes it (Tourground), how we source facts, and what we will and won't do." schemaType="AboutPage"
+  sources={[{ title: 'Tourground', url: 'https://tourground.com/', publisher: 'Publisher' }]}>
+  <p class="lede">Know Benin is a travel blog for people planning a trip to Benin: the history of Dahomey and the slave route, Vodun and its festivals, the lagoons and the coast, and the savannah of the north. It is published by Tourground.</p>
+  <h2>Published by Tourground</h2>
+  <p>Know Benin is published by <a href={SITE.publisher.url}>Tourground</a>, which runs a directory of local travel companies around the world and sells them paid plans. Escale Voyages, the Cotonou operator many of our stories point to, is listed in the Tourground directory and its website is hosted by Tourground. Some travel brands are owned by Tourground's founders. The <a href="/disclosure/">publisher disclosure</a> sets out the relationship.</p>
+  <h2>How we write</h2>
+  <ul>
+    <li><strong>Story first, then practical.</strong> We want you to understand a place before you get there, and to know how a visit actually works.</li>
+    <li><strong>Sourced.</strong> Every post lists its sources. For history we use UNESCO, the Government of Benin and published scholarship; for visas, health and safety we use only official sources and link to them in the text.</li>
+    <li><strong>Dated.</strong> Every post shows when it was published, and posts with visa, health or safety facts show the date we last checked them against the official source.</li>
+    <li><strong>No invented facts.</strong> We do not publish made-up reviews, quotes, prices or statistics. If we cannot source something, we leave it out.</li>
+    <li><strong>Honest about risk.</strong> Where governments advise against travel, as they currently do for parts of northern Benin, we say so at the top of the post.</li>
+  </ul>
+  <h2>Plan this trip</h2>
+  <p>Every story ends with a "Plan this trip" box pointing to a local operator listed in the <a href={SITE.directoryUrl}>Tourground directory</a>. Know Benin does not sell trips, take bookings or handle payments. Any contract you make is between you and the operator.</p>
+  <h2>Advertising</h2>
+  <p>No company pays to be mentioned in our stories. If we ever publish paid content, it will be labelled "Advertisement feature" at the top of the page and on every card that links to it, and its links will be marked as sponsored.</p>
+  <h2>Corrections</h2>
+  <p>If something on this site is wrong or out of date, email us at <a href={`mailto:${SITE.email}`}>{SITE.email}</a> with the page address. We correct factual errors and update the "last checked" date when we do.</p>
+</Page>

@@ -1,0 +1,126 @@
+---
+import '@fontsource-variable/inter/wght.css';
+import '@fontsource/source-serif-4/600.css';
+import '../styles/global.css';
+import { SITE, CATEGORIES } from '../data/site';
+import { organization, website, breadcrumbList, type Crumb } from '../lib/schema';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  crumbs?: Crumb[];
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+  extraSchema?: Record<string, unknown>[];
+  preloadImage?: { srcset: string; sizes: string };
+  noindex?: boolean;
+  ogImageSize?: [number, number];
+}
+const { title, description, crumbs = [], ogImage = '/og.jpg', ogType = 'website', extraSchema = [], preloadImage, noindex = false, ogImageSize = [1200, 630] } = Astro.props;
+const canonical = new URL(Astro.url.pathname, SITE.url).href;
+const fullTitle = Astro.url.pathname === '/' ? `${SITE.name}: ${SITE.tagline}` : `${title} | ${SITE.name}`;
+const allCrumbs: Crumb[] = [{ name: 'Home', url: '/' }, ...crumbs];
+const graph = {
+  '@context': 'https://schema.org',
+  '@graph': [organization(), website(), breadcrumbList(allCrumbs), ...extraSchema],
+};
+const path = Astro.url.pathname;
+const nav = [
+  { href: '/stories/', label: 'Stories' },
+  { href: '/destinations/', label: 'Destinations' },
+  { href: '/category/travel-tips/', label: 'Travel tips' },
+  { href: '/about/', label: 'About' },
+];
+---
+<!doctype html>
+<html lang={SITE.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    {preloadImage && <link rel="preload" as="image" type="image/webp" imagesrcset={preloadImage.srcset} imagesizes={preloadImage.sizes} fetchpriority="high" />}
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={SITE.locale} />
+    <meta property="og:image" content={new URL(ogImage, SITE.url).href} />
+    <meta property="og:image:width" content={String(ogImageSize[0])} />
+    <meta property="og:image:height" content={String(ogImageSize[1])} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#25305f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+    <link rel="alternate" type="application/rss+xml" title={`${SITE.name} RSS feed`} href="/rss.xml" />
+    <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt" />
+    <script type="application/ld+json" set:html={JSON.stringify(graph)} />
+    <script is:inline>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};</script>
+    <script is:inline defer src="/_vercel/insights/script.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="/">Know Benin <small>by Tourground</small></a>
+        <nav class="site-nav" aria-label="Main">
+          <ul>
+            {nav.map((n) => (
+              <li><a href={n.href} aria-current={path.startsWith(n.href) ? 'page' : undefined}>{n.label}</a></li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <main id="main" tabindex="-1">
+      {crumbs.length > 0 && <div class="wrap"><Breadcrumbs crumbs={allCrumbs} /></div>}
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="wrap">
+        <div class="footer-grid">
+          <div>
+            <h2>{SITE.name}</h2>
+            <p>Story-led, sourced travel writing for people planning a trip to Benin. Every post lists its sources and ends with a local operator you can check in the Tourground directory.</p>
+            <p><a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
+          </div>
+          <div>
+            <h2>Stories</h2>
+            <ul>
+              {CATEGORIES.map((c) => <li><a href={`/category/${c.slug}/`}>{c.name}</a></li>)}
+            </ul>
+          </div>
+          <div>
+            <h2>Explore</h2>
+            <ul>
+              <li><a href="/stories/">All stories</a></li>
+              <li><a href="/destinations/">Destinations</a></li>
+              <li><a href="/authors/">Authors</a></li>
+              <li><a href="/rss.xml">RSS feed</a></li>
+              <li><a href={SITE.directoryUrl}>Tourground directory</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2>About</h2>
+            <ul>
+              <li><a href="/about/">About Know Benin</a></li>
+              <li><a href="/disclosure/">Publisher disclosure</a></li>
+              <li><a href="/photo-credits/">Photo credits</a></li>
+              <li><a href="/privacy/">Privacy policy</a></li>
+              <li><a href="/cookies/">Cookie policy</a></li>
+              <li><a href="/terms/">Terms of use</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="published-by">
+          <p><strong>Published by Tourground.</strong> <a href={SITE.publisher.url}>tourground.com</a></p>
+          <p>{SITE.name} · knowbenin.tourground.com</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

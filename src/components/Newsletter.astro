@@ -1,0 +1,15 @@
+---
+import { SITE } from '../data/site';
+const subject = encodeURIComponent('Subscribe to Know Benin');
+const body = encodeURIComponent('Please add this address to the Know Benin newsletter. I understand I can unsubscribe at any time by replying "unsubscribe".');
+---
+<section class="newsletter" aria-labelledby="newsletter-title">
+  <div>
+    <h2 id="newsletter-title">Get new stories by email</h2>
+    <p>An occasional email when we publish: new stories, and changes to visa, health or safety advice that affect the posts you've read. No ads, no sharing your address.</p>
+  </div>
+  <div class="actions">
+    <a class="button" href={`mailto:${SITE.email}?subject=${subject}&body=${body}`}>Sign up by email</a>
+    <a class="button secondary" href="/rss.xml">Follow by RSS</a>
+  </div>
+</section>

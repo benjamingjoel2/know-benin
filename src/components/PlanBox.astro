@@ -1,0 +1,20 @@
+---
+import { SITE } from '../data/site';
+interface Props { plan: { operator: string; url: string; label: string; summary: string }; sponsored?: boolean }
+const { plan, sponsored = false } = Astro.props;
+const isDirectory = plan.url.startsWith(SITE.directoryUrl);
+const rel = sponsored ? 'sponsored noopener' : 'noopener';
+---
+<aside class="plan-box" aria-labelledby="plan-title">
+  {sponsored && <p><span class="ad-label">Advertisement feature</span></p>}
+  <h2 id="plan-title">Plan this trip</h2>
+  <p class="operator">{plan.operator}</p>
+  <p>{plan.summary}</p>
+  <div class="actions">
+    <a class="button" href={plan.url} rel={rel}>{plan.label}</a>
+    {!isDirectory && <a class="button secondary" href={SITE.directoryUrl} rel="noopener">Browse the Tourground directory</a>}
+  </div>
+  <p class="small">
+    Operators are listed in the <a href={SITE.directoryUrl} rel="noopener">Tourground directory</a>. Know Benin does not sell trips or take bookings, and no operator pays to appear in a story. See our <a href="/disclosure/">publisher disclosure</a>.
+  </p>
+</aside>

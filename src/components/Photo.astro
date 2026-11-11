@@ -1,0 +1,20 @@
+---
+import photos from '../data/photos.json';
+import { srcset, defaultSrc } from '../lib/photo-html.mjs';
+interface Props { photo: string; alt?: string; sizes?: string; eager?: boolean; class?: string }
+const { photo, alt, sizes = '100vw', eager = false, class: cls } = Astro.props;
+const p = (photos as Record<string, any>)[photo];
+if (!p) throw new Error(`Unknown photo ${photo}`);
+---
+<img
+  class={cls}
+  src={defaultSrc(p)}
+  srcset={srcset(photo, p)}
+  sizes={sizes}
+  width={p.width}
+  height={p.height}
+  alt={alt ?? p.alt}
+  loading={eager ? 'eager' : 'lazy'}
+  fetchpriority={eager ? 'high' : 'auto'}
+  decoding="async"
+/>

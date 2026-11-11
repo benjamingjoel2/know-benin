@@ -1,0 +1,6 @@
+---
+import photos from '../data/photos.json';
+interface Props { photo: string }
+const p = (photos as Record<string, any>)[Astro.props.photo];
+---
+<span class="credit">Photo: <a href={p.source} rel="noopener">{p.author}</a>, {p.licenseUrl ? <a href={p.licenseUrl} rel="license noopener">{p.license}</a> : p.license}, via Wikimedia Commons</span>

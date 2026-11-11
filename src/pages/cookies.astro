@@ -1,0 +1,20 @@
+---
+import Page from '../layouts/Page.astro';
+---
+<Page title="Cookie policy" eyebrow="Legal" description="Know Benin does not set cookies or store anything on your device. Here is how visits are counted without them."
+  sources={[
+    { title: 'Directive 2002/58/EC (ePrivacy Directive), Article 5(3)', url: 'https://eur-lex.europa.eu/eli/dir/2002/58/oj', publisher: 'EUR-Lex' },
+    { title: 'Cookies and similar technologies', url: 'https://ico.org.uk/for-organisations/direct-marketing-and-privacy-and-electronic-communications/guide-to-pecr/cookies-and-similar-technologies/', publisher: "UK Information Commissioner's Office" },
+    { title: 'Vercel Web Analytics: privacy and compliance', url: 'https://vercel.com/docs/analytics/privacy-policy', publisher: 'Vercel' },
+  ]}>
+  <h2>The short version</h2>
+  <p>Know Benin does not set cookies and does not store anything on your device. You will not see a cookie banner here because there is nothing to consent to.</p>
+  <h2>How visits are counted</h2>
+  <p>We count page views with Vercel Web Analytics. According to Vercel, it works without cookies: a visitor is identified by a hash created from the incoming request, which is discarded after 24 hours, and only aggregated statistics are reported to us. Nothing is written to or read from your browser's storage for this purpose. See our <a href="/privacy/">privacy policy</a> for what is collected and why.</p>
+  <h2>Other storage</h2>
+  <p>This site does not use local storage, session storage, fingerprinting scripts, advertising pixels, embedded maps or social media plugins. Fonts and photographs are served from our own domain.</p>
+  <h2>Sites we link to</h2>
+  <p>Operator websites, the Tourground directory and our sources are separate websites with their own cookie policies, which apply when you visit them.</p>
+  <h2>If this changes</h2>
+  <p>If we ever add a cookie or similar technology that is not strictly necessary, we will ask for your consent first where the law requires it, and update this page.</p>
+</Page>

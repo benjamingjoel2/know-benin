@@ -1,0 +1,22 @@
+---
+import Page from '../layouts/Page.astro';
+import photos from '../data/photos.json';
+import { optimized } from '../lib/photo-html.mjs';
+const list = Object.entries(photos as Record<string, any>);
+---
+<Page title="Photo credits" description="Every photograph on Know Benin, with its creator, licence and source on Wikimedia Commons." >
+  <p>All photographs on Know Benin are real photographs of the places they show, taken by the people named below and published under free licences on Wikimedia Commons. We serve resized, compressed copies and crop some of them to fit the layout; we have not otherwise altered them. Each photo is also credited where it appears.</p>
+  <p>If you are a photographer and something here is wrong, email us and we'll fix it.</p>
+  <ul class="credits-list">
+    {list.map(([key, p]) => (
+      <li>
+        <img src={optimized(p, 640)} width="96" height="64" alt="" loading="lazy" decoding="async" />
+        <div>
+          <strong>{p.caption}</strong><br />
+          {p.author} · {p.licenseUrl ? <a href={p.licenseUrl} rel="license noopener">{p.license}</a> : p.license}<br />
+          <a href={p.source} rel="noopener">{p.title}</a> on Wikimedia Commons
+        </div>
+      </li>
+    ))}
+  </ul>
+</Page>

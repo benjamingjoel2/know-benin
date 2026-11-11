@@ -1,0 +1,28 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostCard from '../../components/PostCard.astro';
+import { PLACES } from '../../data/site';
+import { getPosts } from '../../lib/posts';
+const posts = await getPosts();
+const destPosts = posts.filter((p) => p.data.category === 'destinations');
+const counts = Object.fromEntries(PLACES.map((pl) => [pl.slug, posts.filter((p) => p.data.places.includes(pl.slug)).length]));
+const schema = { '@type': 'CollectionPage', name: 'Destinations', url: 'https://knowbenin.tourground.com/destinations/' };
+---
+<Base title="Destinations" description="Where to go in Benin: Cotonou, Porto-Novo, Ouidah, Abomey, Ganvié, and the north and Pendjari, with stories for each." crumbs={[{ name: 'Destinations', url: '/destinations/' }]} extraSchema={[schema]}>
+  <div class="wrap">
+    <p class="eyebrow">Category</p>
+    <h1>Destinations</h1>
+    <p class="lede measure">Benin runs from the Atlantic coast to the Niger. Most trips start in the south, where the coast, the lagoons and the old kingdoms are. Pick a place to see every story that covers it.</p>
+    <ul class="tiles section">
+      {PLACES.map((pl) => (
+        <li><a href={`/destinations/${pl.slug}/`}>{pl.name}</a><p>{pl.blurb}</p><p class="count">{counts[pl.slug]} {counts[pl.slug] === 1 ? 'story' : 'stories'}</p></li>
+      ))}
+    </ul>
+    {destPosts.length > 0 && (
+      <section class="section" aria-labelledby="dest-stories">
+        <h2 id="dest-stories">Destination stories</h2>
+        <div class="grid grid-3">{destPosts.map((p) => <PostCard post={p} />)}</div>
+      </section>
+    )}
+  </div>
+</Base>

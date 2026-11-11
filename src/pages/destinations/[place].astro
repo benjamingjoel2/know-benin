@@ -1,0 +1,22 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostCard from '../../components/PostCard.astro';
+import { PLACES } from '../../data/site';
+import { getPosts } from '../../lib/posts';
+export function getStaticPaths() {
+  return PLACES.map((pl) => ({ params: { place: pl.slug }, props: { place: pl } }));
+}
+const { place } = Astro.props;
+const posts = (await getPosts()).filter((p) => p.data.places.includes(place.slug));
+const schema = { '@type': 'CollectionPage', name: place.name, description: place.blurb, url: `https://knowbenin.tourground.com/destinations/${place.slug}/` };
+---
+<Base title={`${place.name}, Benin`} description={`Stories about ${place.name}: ${place.blurb}`} crumbs={[{ name: 'Destinations', url: '/destinations/' }, { name: place.name, url: `/destinations/${place.slug}/` }]} extraSchema={[schema]}>
+  <div class="wrap">
+    <p class="eyebrow">Destination</p>
+    <h1>{place.name}</h1>
+    <p class="lede measure">{place.blurb}</p>
+    <div class="grid grid-3 section">{posts.map((p) => <PostCard post={p} headingLevel="h2" />)}</div>
+    {posts.length === 0 && <p>No stories here yet. <a href="/stories/">See all stories</a>.</p>}
+    <p><a href="/destinations/">All destinations</a></p>
+  </div>
+</Base>

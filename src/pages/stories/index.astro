@@ -1,0 +1,17 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostCard from '../../components/PostCard.astro';
+import { CATEGORIES } from '../../data/site';
+import { getPosts } from '../../lib/posts';
+const posts = await getPosts();
+const schema = { '@type': 'CollectionPage', name: 'All stories', url: 'https://knowbenin.tourground.com/stories/' };
+---
+<Base title="All stories" description="Every Know Benin story: history, Vodun, wildlife, itineraries, the coast and practical travel tips for Benin." crumbs={[{ name: 'Stories', url: '/stories/' }]} extraSchema={[schema]}>
+  <div class="wrap">
+    <h1>All stories</h1>
+    <p class="lede measure">Story-led, sourced posts for planning a trip to Benin. Browse by subject: {CATEGORIES.map((c, i) => <>{i > 0 && ', '}<a href={`/category/${c.slug}/`}>{c.name}</a></>)}.</p>
+    <div class="grid grid-3 section">
+      {posts.map((p) => <PostCard post={p} headingLevel="h2" />)}
+    </div>
+  </div>
+</Base>
