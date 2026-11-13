@@ -63,7 +63,7 @@ p { margin: 0 0 1em; }
 
 /* Generic blocks */
 main { display: block; }
-.section { padding: 2.5rem 0; }
+.section { padding-block: 2.5rem; }
 .section + .section { border-top: 1px solid var(--line); }
 .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem; }
 .section-head h2 { margin: 0; }
@@ -143,17 +143,16 @@ main { display: block; }
 .post-header { padding-top: 0.5rem; }
 .post-header h1 { max-width: 22em; }
 .post-header .lede { max-width: var(--measure); }
-.byline { display: flex; flex-wrap: wrap; gap: 0.2rem 0; color: var(--muted); font-size: 0.93rem; margin-top: 0.75rem; }
+.byline { display: flex; flex-wrap: wrap; gap: 0.2rem 1.1rem; color: var(--muted); font-size: 0.93rem; margin-top: 0.75rem; }
 .byline a { color: var(--ink); font-weight: 600; text-decoration: none; }
 .byline a:hover { text-decoration: underline; }
-.byline > span + span::before { content: '·'; margin: 0 0.5em; }
 .hero { margin: 1.5rem 0 0; }
 .hero img { width: 100%; max-height: 78vh; object-fit: cover; border-radius: var(--radius); }
 .hero figcaption, .post-figure figcaption { font-size: 0.82rem; color: var(--muted); margin-top: 0.45rem; line-height: 1.45; }
 .credit { display: inline; }
 .credit a, figcaption a { color: var(--muted); }
 
-.post-layout { display: grid; gap: 2rem; padding: 2rem 0 1rem; }
+.post-layout { display: grid; gap: 2rem; padding-top: 2rem; padding-bottom: 1rem; }
 .prose { max-width: var(--measure); font-size: 1.1rem; }
 .prose h2 { margin-top: 2.2rem; }
 .prose h3 { margin-top: 1.6rem; }

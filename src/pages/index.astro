@@ -13,9 +13,10 @@ const posts = await getPosts();
 const featured = posts.find((p) => p.data.featured) ?? posts[0];
 const latest = posts.filter((p) => p.id !== featured.id).slice(0, 6);
 const startOrder = ['first-timers-guide-to-benin', 'benin-e-visa-entry-requirements', 'benin-10-day-itinerary'];
+const rank = (id: string) => (startOrder.includes(id) ? startOrder.indexOf(id) : startOrder.length);
 const startHere = posts
   .filter((p) => p.data.startHere)
-  .sort((a, b) => (startOrder.indexOf(a.id) + 99) % 100 - (startOrder.indexOf(b.id) + 99) % 100);
+  .sort((a, b) => rank(a.id) - rank(b.id));
 const counts = Object.fromEntries(CATEGORIES.map((c) => [c.slug, posts.filter((p) => p.data.category === c.slug).length]));
 const f = featured.data;
 const sizes = '(min-width: 56rem) 40rem, 100vw';
